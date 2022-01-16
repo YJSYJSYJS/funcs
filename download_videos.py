@@ -5,8 +5,6 @@ import pickle
 def main(args):
     link_form = 'https://www.youtube.com/watch?v='
 
-    err_lists = list()
-
     with open(args.ids) as f:
         lines = f.readlines()
         total = len(lines)
@@ -23,17 +21,12 @@ def main(args):
                 yt = YouTube(curr_link)
                 yt.streams.first().download(output_path=args.save, filename=fname)
             except:
-                err_lists.append(l)
                 continue
     
-    with open(args.errs, 'wb') as f:
-        pickle.dump(err_lists, f)
-                
-                
+                 
 if __name__=='__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--ids', type=str, required=True, help='youtube ids txt file dir')
     parser.add_argument('--save', type=str, required=True, help='youtube video download dir')
-    parser.add_argument('--errs', type=str, required=True, help='download failed ids')
     args = parser.parse_args()
     main(args)
